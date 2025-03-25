@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anonymous Suggestion Box</title>
+    <link rel="stylesheet" href="/client-side/style/style.css">
+
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-analytics-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+</head>
+<body>
+
+    
+    <div class="navbar">
+        <a href="index.html">Home</a>
+        <a href="/client-side/pages/all.html">dashboard</a>
+        <a href="/admin/pages/admin.html" class="admin-link">Admin Login</a>
+    </div>
+
+    
+    <div class="card">
+        <h2>Anonymous Suggestion Box</h2>
+        <textarea id="suggestion" placeholder="Enter your suggestion..."></textarea>
+        <button id="submitBtn">Submit</button>
+
+        <p id="message"></p>
+        <br>
+       
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        &copy; 2025 Your Company. All Rights Reserved.
+    </div>
+
+    <script type="module" src="/client-side/server/script.js"></script>
+    <script type="module" src="/client-side/server/firebase-config.js"></script>
+
+</body>
+</html>

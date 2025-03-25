@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>View Suggestions</title>
+    <link rel="stylesheet" href="/client-side/style/all.css">
+</head>
+<body>
+    <div class="navbar">
+        <a href="/client-side/pages/index.html">Home</a>
+        <a href="#">Suggestions</a>
+    </div>
+
+    <div class="container">
+        <h2>All Suggestions</h2>
+        <div id="suggestions"></div>
+    </div>
+
+    <div class="footer">
+        &copy; 2025 Your Company. All Rights Reserved.
+    </div>
+
+    <script type="module">
+        import { db, collection, getDocs, doc, updateDoc, increment } from "/client-side/server/firebase-config.js";
+
+        async function loadSuggestions() {
+            let suggestionList = document.getElementById("suggestions");
+            suggestionList.innerHTML = "";
+
+            const querySnapshot = await getDocs(collection(db, "suggestions"));
+            querySnapshot.forEach((sug) => {
+                let suggestion = sug.data();
+                let suggestionDiv = document.createElement("div");
+                suggestionDiv.className = "suggestion-card";
+                suggestionDiv.innerHTML = `
+                    <p><strong>Suggestion:</strong> ${suggestion.text}</p>
+                    <p><strong>Admin Reply:</strong> ${suggestion.reply ? suggestion.reply : "No reply yet"}</p>
+                    <p>Likes: <span id="likes-${sug.id}">${suggestion.likes || 0}</span></p>
+                    <button class="like-btn" onclick="likeSuggestion('${sug.id}')">Like</button>
+                `;
+                suggestionList.appendChild(suggestionDiv);
+            });
+        }
+
+        async function likeSuggestion(id) {
+            const suggestionRef = doc(db, "suggestions", id);
+            await updateDoc(suggestionRef, {
+                likes: increment(1)
+            });
+            document.getElementById(`likes-${id}`).textContent++;
+        }
+
+        loadSuggestions();
+        window.likeSuggestion = likeSuggestion;
+    </script>
+</body>
+</html>

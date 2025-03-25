@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Admin Login</title>
+    <link rel="stylesheet" href="/admin/style/admin.css">
+</head>
+<body>
+
+    <!-- Navbar -->
+    <div class="navbar">
+        <a href="/client-side/pages/index.html">Home</a>
+        <a href="#">About</a>
+     
+    </div>
+
+    <!-- Login Card -->
+    <div class="card">
+        <h2>Admin Login</h2>
+        <input type="text" id="username" placeholder="Email">
+        <input type="password" id="password" placeholder="Password">
+        <button onclick="adminLogin()">Login</button>
+        <p id="loginMessage"></p>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        &copy; 2025 Byte Tech labs . All Rights Reserved.
+    </div>
+
+    <script type="module">
+        import { auth, signInWithEmailAndPassword } from "./firebase-config.js";
+
+        function adminLogin() {
+            let email = document.getElementById("username").value;
+            let password = document.getElementById("password").value;
+
+            signInWithEmailAndPassword(auth, email, password)
+                .then(() => {
+                    window.location.href = "dashboard.html";
+                })
+                .catch(() => {
+                    document.getElementById("loginMessage").innerText = "Invalid credentials";
+                });
+        }
+
+        window.adminLogin = adminLogin;
+    </script>
+
+</body>
+</html>

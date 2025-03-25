@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="/admin/style/dashboard.css">
+</head>
+<body>
+
+    <!-- Navbar -->
+    <div class="navbar">
+        <a href="/client-side/pages/index.html">Home</a>
+        <a href="#">Dashboard</a>
+        <a href="/admin/pages/admin.html" onclick="logout()">Logout</a>
+    </div>
+
+    <!-- Dashboard Container -->
+    <div class="dashboard-container">
+        <h2>Suggestions</h2>
+        <div id="suggestions"></div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        &copy; 2025 Byte Tech Labs. All Rights Reserved.
+    </div>
+
+    <script type="module">
+        import { db, auth, collection, getDocs, deleteDoc, doc, updateDoc } from "./firebase-config.js";
+
+        async function loadSuggestions() {
+            let suggestionList = document.getElementById("suggestions");
+            suggestionList.innerHTML = "";
+
+            const querySnapshot = await getDocs(collection(db, "suggestions"));
+            querySnapshot.forEach((sug) => {
+                let suggestion = sug.data();
+                let suggestionDiv = document.createElement("div");
+                suggestionDiv.className = "suggestion-card";
+                suggestionDiv.innerHTML = `
+                    <p><strong>Suggestion:</strong> ${suggestion.text}</p>
+                    <div class="button-group">
+                        <button class="delete-btn" onclick="deleteSuggestion('${sug.id}')">Delete</button>
+                        <button class="reply-btn" onclick="toggleReplyBox('${sug.id}')">Reply</button>
+                    </div>
+                    <div id="reply-box-${sug.id}" class="reply-box" style="display: none;">
+                        <textarea id="reply-text-${sug.id}" placeholder="Type your reply here..."></textarea>
+                        <button class="send-reply-btn" onclick="sendReply('${sug.id}')">Send</button>
+                    </div>
+                `;
+                suggestionList.appendChild(suggestionDiv);
+            });
+        }
+
+        async function deleteSuggestion(id) {
+            await deleteDoc(doc(db, "suggestions", id));
+            loadSuggestions();
+        }
+
+        function toggleReplyBox(id) {
+            let replyBox = document.getElementById(`reply-box-${id}`);
+            replyBox.style.display = replyBox.style.display === "none" ? "block" : "none";
+        }
+
+        async function sendReply(id) {
+            let replyText = document.getElementById(`reply-text-${id}`).value.trim();
+            if (replyText === "") {
+                alert("Reply cannot be empty!");
+                return;
+            }
+
+            let suggestionRef = doc(db, "suggestions", id);
+            await updateDoc(suggestionRef, { reply: replyText });
+
+            alert("Reply sent successfully!");
+            loadSuggestions();
+        }
+
+        function logout() {
+            auth.signOut().then(() => {
+                console.log("User logged out");
+                window.location.href = "/admin/pages/admin.html";
+            }).catch((error) => {
+                console.error("Logout error:", error);
+            });
+        }
+
+        loadSuggestions();
+        window.deleteSuggestion = deleteSuggestion;
+        window.toggleReplyBox = toggleReplyBox;
+        window.sendReply = sendReply;
+        window.logout = logout;
+    </script>
+</body>
+</html>

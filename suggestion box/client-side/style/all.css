@@ -1,0 +1,103 @@
+/* Global Styles */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f7f6;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    margin: 0;
+}
+
+/* Navbar */
+.navbar {
+    width: 100%;
+    background: #007bff;
+    padding: 15px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: white;
+    font-size: 18px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+}
+
+/* Main Container (Filling Screen) */
+.container {
+    flex-grow: 1;
+    width: 100%;
+    padding: 20px;
+    background: white;
+    overflow-y: auto;
+    margin-top: 60px; /* Prevents overlapping with navbar */
+    margin-bottom: 50px; /* Prevents overlapping with footer */
+    box-sizing: border-box;
+}
+
+/* Suggestion Card */
+.suggestion-card {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.473);
+    text-align: left;
+    width: 100%;
+    margin: 15px 0;
+}
+
+.suggestion-card p {
+    margin: 5px 0;
+}
+
+.suggestion-card strong {
+    color: #007bff;
+}
+
+/* Like Button */
+.like-btn {
+    padding: 10px;
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 10px;
+}
+
+.like-btn:hover {
+    background: #0056b3;
+}
+
+/* Message */
+#message {
+    color: green;
+    margin-top: 10px;
+}
+
+/* Admin Login Link */
+.admin-link {
+    text-decoration: none;
+    color: #007bff;
+    font-weight: bold;
+}
+
+.admin-link:hover {
+    text-decoration: underline;
+}
+
+/* Footer */
+.footer {
+    width: 100%;
+    background: #007bff;
+    color: white;
+    text-align: center;
+    padding: 10px;
+    font-size: 14px;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+}
